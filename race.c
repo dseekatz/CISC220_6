@@ -8,14 +8,22 @@
 
 // Car Progress Counters (Global Variables)
 int user = 0;
-int AI1 = 0;
-int AI2 = 0;
-int AI3 = 0;
-int AI4 = 0;
+int AIcounters[4] = {0, 0, 0, 0};
 
 // AI function
 void *carAI(void *args) {
-	// Code for AI cars
+	int carAINums = *(int*)args;
+	time_t t;
+	srand((unsigned) time(&t));
+	while (1) {
+		if (AIcounters[carAINums] == 40) {
+			printf("Player %d Wins!",carAINums+1);
+			exit(0);
+		} // end conditional
+		AIcounters[carAINums]++;
+		int waitTime = rand() % 100;
+		usleep(waitTime*1000);
+	} // end while loop
 	pthread_exit(NULL);
 } // end carAI
 
