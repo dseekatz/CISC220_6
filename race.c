@@ -6,16 +6,26 @@
 
 #define NUM_AI 4
 
+// Car Progress Counters (Global Variables)
+int user = 0;
+int AI1 = 0;
+int AI2 = 0;
+int AI3 = 0;
+int AI4 = 0;
+
+// AI function
 void *carAI(void *args) {
 	// Code for AI cars
 	pthread_exit(NULL);
 } // end carAI
 
+// User function
 void *carUser(void *args) {
 	// Code for user car
 	pthread_exit(NULL);
 } // end carUser
 
+// Draw function
 void *draw(void *args) {
 	// Code for drawing thread
 	pthread_exit(NULL);
