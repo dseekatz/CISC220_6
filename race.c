@@ -21,8 +21,8 @@ void *carAI(void *args) {
 			exit(0);
 		} // end conditional
 		AIcounters[carAINums]++;
-		int waitTime = rand() % 100;
-		usleep(waitTime*10000);
+		float waitTime = ((float)rand())/((float)(RAND_MAX)) * 100 ; // wait time in milliseconds
+		usleep(waitTime*1000);
 	} // end while loop
 	pthread_exit(NULL);
 } // end carAI
@@ -75,7 +75,7 @@ int main() {
 	// print starting conditions
 	system("clear");
 	printf("Welcome to CISC220 Racing Arena!\nHit enter to move forward\n");
-	printstuff(39, 1);
+	printstuff(user, 1);
 	int i;
 	for (i = 2; i < NUM_AI + 2; i++) {
 		printstuff(AIcounters[i-2], i);
