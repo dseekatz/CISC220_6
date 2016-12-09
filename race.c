@@ -17,12 +17,11 @@ void *carAI(void *args) {
 	srand((unsigned) time(&t));
 	while (1) {
 		if (AIcounters[carAINums] == 40) {
-			printf("Player %d Wins!\n",carAINums+1);
-			exit(0);
+			pthread_exit(NULL);
 		} // end conditional
 		AIcounters[carAINums]++;
 		float waitTime = ((float)rand())/((float)(RAND_MAX)) * 100 ; // wait time in milliseconds
-		usleep(waitTime*1000);
+		usleep(waitTime);
 	} // end while loop
 	pthread_exit(NULL);
 } // end carAI
@@ -32,8 +31,7 @@ void *carUser(void *args) {
 	char enter;
 	while (1) {
 		if (user == 40) {
-			printf("Player 1 Wins!\n");
-			exit(0);
+			pthread_exit(NULL);
 		} else if (scanf("%c",&enter)) {
 			user++;
 		} // end conditional
@@ -69,6 +67,16 @@ void printstuff(int progress, int laneNum) {
 void *draw(void *args) {
 	int i = 0;
 	while(1) {
+		if (user == 40) {
+			printf("Player 1 Wins!");
+			pthread_exit(NULL);
+		} // end conditional
+		for (i = 0; i < NUM_AI; i++) {
+			if (AIcounters[i] == 40) {
+				printf("Player %d Wins!\n",i+2);
+				pthread_exit(NULL);
+			} // end conditional
+		} // end for loop
 		printstuff(user, 1);
 		for (i = 2; i < NUM_AI + 2; i++) {
 			printstuff(AIcounters[i-2], i);
