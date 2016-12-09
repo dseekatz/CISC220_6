@@ -12,7 +12,7 @@ int AIcounters[4] = {0, 0, 0, 0};
 
 // AI function
 void *carAI(void *args) {
-	int carAINums = *(int*)args;
+	long carAINums = ((long)args);
 	time_t t;
 	srand((unsigned) time(&t));
 	while (1) {
@@ -20,8 +20,8 @@ void *carAI(void *args) {
 			pthread_exit(NULL);
 		} // end conditional
 		AIcounters[carAINums]++;
-		float waitTime = ((float)rand())/((float)(RAND_MAX)) * 100 ; // wait time in milliseconds
-		usleep(waitTime);
+		int waitTime = (int)((float)rand())/((float)(RAND_MAX)) * 100; // wait time in milliseconds
+		usleep(waitTime*1000); // usleep takes argument in microseconds
 	} // end while loop
 	pthread_exit(NULL);
 } // end carAI
@@ -39,6 +39,7 @@ void *carUser(void *args) {
 	pthread_exit(NULL);
 } // end carUser
 
+// Printing function
 void printstuff(int progress, int laneNum) {
 	
 	char carNumber[4];
@@ -68,13 +69,13 @@ void *draw(void *args) {
 	int i = 0;
 	while(1) {
 		if (user == 40) {
-			printf("Player 1 Wins!");
-			pthread_exit(NULL);
+			printf("Player 1 Wins!\n");
+			exit(0);
 		} // end conditional
 		for (i = 0; i < NUM_AI; i++) {
 			if (AIcounters[i] == 40) {
 				printf("Player %d Wins!\n",i+2);
-				pthread_exit(NULL);
+				exit(0);
 			} // end conditional
 		} // end for loop
 		printstuff(user, 1);
@@ -87,12 +88,13 @@ void *draw(void *args) {
 	pthread_exit(NULL);
 } // end draw
 
+// main function
 int main() {
 	// print starting conditions
 	system("clear");
 	printf("Welcome to CISC220 Racing Arena!\nHit enter to move forward\n");
 	printstuff(user, 1);
-	int i;
+	long i;
 	for (i = 2; i < NUM_AI + 2; i++) {
 		printstuff(AIcounters[i-2], i);
 	} // end for loop
@@ -106,16 +108,14 @@ int main() {
 	scanf("%c",&hitEnter);
 
 	// Create drawing thread	
-	printf("In main: creating drawing thread\n");
-	errorCheck = pthread_create(threads, NULL, draw, (void *) &i);
+	errorCheck = pthread_create(threads, NULL, draw, (void *) i);
 	if (errorCheck) {
 		printf("ERROR: Return code from pthread_create() is %d\n", errorCheck);
 		exit(-1);
 	} // end conditional
 
 	// Create user thread	
-	printf("In main: creating user thread\n");
-	errorCheck = pthread_create(threads, NULL, carUser, (void *) &i);
+	errorCheck = pthread_create(threads, NULL, carUser, (void *) i);
 	if (errorCheck) {
 		printf("ERROR: Return code from pthread_create() is %d\n", errorCheck);
 		exit(-1);
@@ -123,8 +123,7 @@ int main() {
 	
 	// Create AI threads
 	for (i = 0; i < NUM_AI; i++) {
-		printf("In main: creating an AI thread\n");
-		errorCheck = pthread_create(threads, NULL, carAI, (void *) &i);
+		errorCheck = pthread_create(threads, NULL, carAI, (void *) i);
 		if (errorCheck) {
 			printf("ERROR: Return code from pthread_create() is %d\n", errorCheck);
 			exit(-1);
