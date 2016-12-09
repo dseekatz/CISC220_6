@@ -29,7 +29,15 @@ void *carAI(void *args) {
 
 // User function
 void *carUser(void *args) {
-	// Code for user car
+	char enter;
+	while (1) {
+		if (user == 40) {
+			printf("Player 1 Wins!\n");
+			exit(0);
+		} else if (scanf("%c",&enter)) {
+			user++;
+		} // end conditional
+	} // end while loop
 	pthread_exit(NULL);
 } // end carUser
 
