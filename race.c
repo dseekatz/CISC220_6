@@ -1,3 +1,16 @@
+// Assignment 6 - Last assignment!
+
+// This program lets the user race against four AI opponents by pressing enter
+// to move their car forward.  The AI opponents move forward one space after a random
+// amount of time between 0 and 100 milliseconds.  The first car to move 40 spaces
+// is the winner.
+
+// Team members:
+//David Seekatz				16das4 20037710
+//Sean Eylott				13se18 10141657
+//Simon Ungar        			14seau 10149546
+//Brooke Resendes   			13brr2 10141112
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<unistd.h>
